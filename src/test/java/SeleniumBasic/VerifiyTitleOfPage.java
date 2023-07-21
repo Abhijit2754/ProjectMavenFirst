@@ -2,6 +2,7 @@ package SeleniumBasic;
 
 import java.sql.DriverManager;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,32 +13,31 @@ public class VerifiyTitleOfPage {
 	
 	public static void main(String []args)
 	{
-			WebDriverManager.chromedriver().setup();
+			WebDriverManager.chromedriver().setup();		
 			
-			ChromeOptions headless = new ChromeOptions();
+			WebDriver driver = new ChromeDriver();
 			
-			headless.addArguments("--headless");
-			
-			WebDriver driver = new ChromeDriver(headless);
-			
-			driver.get("https://www.google.com/");
-			
-			driver.manage().window().maximize(); 
+			driver.get("https://www.hirekar.in/");		
+	
+			driver.findElement(By.xpath("//input[@placeholder='Find Services']")).sendKeys("ahhbijjiit");
+	    	
+	    	driver.findElement(By.xpath("//button[normalize-space()='Search']")).click();
 			
 			String ttle = driver.getTitle();
 			
-			System.out.println("Title is "+ttle);
+			String data = driver.getPageSource();
 			
-			if(ttle.equals("Google"))
+			boolean isTextAvailable = data.contains("No gig found, Please try another query.");
+						
+			if(isTextAvailable)
 			{
-				System.out.println("Title is matched");
+				System.out.println("No service Aviablae");
 			}
 			else
 			{
-				System.out.println("title is not matched");
-			}
+				System.out.println("Service Available with given text");
+			}		
 			
-			driver.close();
 	}
 
 }

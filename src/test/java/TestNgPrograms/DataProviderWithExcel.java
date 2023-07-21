@@ -1,4 +1,4 @@
-package SeleniumBasic;
+package TestNgPrograms;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -14,13 +14,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class GetDataFromExcelAndDisplay {
+public class DataProviderWithExcel {
 
     @Test(dataProvider = "loginDataProvider")
-    public void testLogin(String username, String password, String surname) {
+    public void testLogin(String username, String password) {
 
     	WebDriverManager.chromedriver().setup();
     	
@@ -28,14 +27,11 @@ public class GetDataFromExcelAndDisplay {
     	    	
     	driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
     	
-    	WebElement usernamec = driver.findElement(By.xpath("//input[@placeholder='Username']"));
-    	usernamec.sendKeys(username);
+    	driver.findElement(By.xpath("//input[@placeholder='Username']")).sendKeys(username);
     	
-    	WebElement pass = driver.findElement(By.xpath("//input[@placeholder='Password']"));
-    	pass.sendKeys(password);
+    	driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys(password);
     	
-    	WebElement button = driver.findElement(By.xpath("//button[@type='submit']"));
-    	button.click();
+    	driver.findElement(By.xpath("//button[@type='submit']")).click();
     	
     	String title = driver.getTitle();
     	
@@ -48,7 +44,6 @@ public class GetDataFromExcelAndDisplay {
     		assert(false);
     	}
     	
-    	driver.close();
     }
 
     @DataProvider(name = "loginDataProvider")
@@ -65,9 +60,11 @@ public class GetDataFromExcelAndDisplay {
         for (int row = 0; row < lastRow; row++) {
             XSSFRow currentRow = sheet.getRow(row);
 
-            data[row][0] = currentRow.getCell(0).toString();
-            data[row][1] = currentRow.getCell(1).toString();            
-            data[row][2] = currentRow.getCell(2).toString();            
+            String username = currentRow.getCell(0).toString();
+            String password = currentRow.getCell(1).toString();
+
+            data[row][0] = username;
+            data[row][1] = password;            
         }
 
         workbook.close();

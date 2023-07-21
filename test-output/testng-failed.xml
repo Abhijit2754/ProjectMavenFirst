@@ -5,7 +5,7 @@
     <classes>
       <class name="SeleniumBasic.GetDataFromExcelAndDisplay">
         <methods>
-          <include name="testLogin"/>
+          <include name="testLogin" invocation-numbers="0 1 2 3"/>
         </methods>
       </class> <!-- SeleniumBasic.GetDataFromExcelAndDisplay -->
     </classes>
